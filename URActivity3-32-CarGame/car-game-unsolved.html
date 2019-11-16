@@ -68,12 +68,14 @@
         // TO DO: Call the different car methods
         if (letter === "h") {
           car.honk();
-        } else if (letter === "d") {
+        } else if (letter === "d" && car.isWorking) {
           car.driveToWork();
-        } else if (letter === "w") {
+        } else if (letter === "w" && car.isWorking) {
           car.driveAroundWorld();
         } else if (letter === "t") {
           car.getTuneUp();
+        } else if ((letter === "d" || letter === "w") && car.isWorking === false) {
+          alert("Car isn't working! Get a tuneup first.");
         } else {
           alert("Invalid input. Type 'h', 'd', 'w', or 't'.");
         }
