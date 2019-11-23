@@ -1,0 +1,40 @@
+.container {
+  margin: 0 auto;
+  width: 70%;
+}
+
+form {
+  text-align: left;
+}
+
+input {
+  background: none;
+  color: rgb(140, 140, 140);
+  font-size: 18px;
+  padding: 10px 10px 10px 5px;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid lightgrey;
+}
+
+input:focus {
+  outline: none;
+}
+
+button {
+  background-color: #d6eeff;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 20px 40px 20px 0;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.lucky-btn {
+  background-color: #a491d3;
+  color: white;
+}
+
+#otherTip {
+  width: 50px;
+}
