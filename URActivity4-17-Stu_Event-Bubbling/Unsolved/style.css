@@ -1,0 +1,35 @@
+body {
+  font-family: "Benton Sans", "Helvetica Neue", helvetica, arial, sans-serif;
+  margin: 2em;
+}
+
+.carouselbox {
+  width: 300px;
+  height: 200px;
+  cursor: pointer;
+  background-image: url("https://cdn.britannica.com/45/5645-050-B9EC0205/head-treasure-flower-disk-flowers-inflorescence-ray.jpg");
+  background-size: cover;
+}
+
+.buttons {
+  text-align: center;
+}
+
+button {
+  position: absolute;
+  margin-top: -30px;
+}
+
+img {
+  margin: 0 auto;
+}
+
+.prev {
+  top: 280px;
+  left: 40px;
+}
+
+.next {
+  top: 280px;
+  left: 240px;
+}
