@@ -20,6 +20,8 @@ searchButton.on("click", function() {
   // Create a click event for newButton
   // Put the button inside the searchHistoryDiv
   searchHistoryDiv.prepend(newButton);
+  // City entered by user is used for API Calls
+  currentWeather(city);
 });
 
 // Create a function that takes search history from local storage and creates search history buttons as soon as the page loads
