@@ -12,11 +12,9 @@ const inspiringQuotes = [
 ];
 
 function handleClientReq(req, res) {
-  //   let index = Math.floor(Math.random * inspiringQuotes.length);
-  //   let quote = inspiringQuotes[index];
-  res.end(
-    "The quickest way to double your money is to fold it over and put it back in your pocket."
-  );
+  let index = Math.floor(Math.random() * inspiringQuotes.length);
+  let quote = inspiringQuotes[index];
+  res.end(quote);
 }
 
 const server1 = http.createServer(handleClientReq);
