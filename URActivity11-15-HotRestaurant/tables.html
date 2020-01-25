@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Activity 11-15</title>
+    <!--Bootstrap-->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <style>
+      .blueBox {
+        background-color: #007bff;
+        padding: 10px 20px;
+        margin-right: 20px;
+        display: inline-block;
+        min-width: 50px;
+        border-radius: 3px;
+      }
+      .blueBox h4 {
+        margin: 0;
+      }
+      .uniqueID {
+        display: inline-block;
+        font-size: 1.6rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="jumbotron">
+          <div class="row">
+            <div class="col text-center">
+              <h1 class="font-weight-bold">Gina's Restaurant</h1>
+              <hr />
+              <h3>
+                Current Reservations and Waiting List
+              </h3>
+              <br />
+              <a href="./reserve"
+                ><button class="btn btn-danger" id="makeReservationBtn">
+                  Make Reservation
+                </button></a
+              >
+              <a href="./"
+                ><button class="btn btn-light" id="homeBtn">
+                  Home
+                </button></a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="card">
+              <h5 class="card-header">Current Reservations</h5>
+              <div class="card-body" id="displayReservations">
+                <!--Dynamically add reservation info-->
+              </div>
+            </div>
+            <br />
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="card">
+              <h5 class="card-header">Waiting List</h5>
+              <div class="card-body" id="displayWaitlist">
+                <!--Dynamically add reservation info-->
+              </div>
+            </div>
+            <br />
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <p>
+              <a href="#" id="clear">Clear Table</a> |
+              <a href="./api/tables">API Table Link</a> |
+              <a href="./api/waitlist">API Wait List</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script type="text/javascript">
+      $.get("/api/tables", function(data) {
+        if (JSON.stringify(data) !== "[]") {
+          for (let i = 0; i < data.length; i++) {
+            const newResDiv = $("<div>").addClass("innerDiv");
+            newResDiv.append(
+              $(`
+           <div class="blueBox">
+            <h4 class="text-white font-weight-bold text-center">
+              ${i + 1}
+             </h4>
+            </div>
+            <p class="font-weight-bold uniqueID">
+              | &nbsp;&nbsp; ID: ${data[i].uniqueID}
+            </p>
+           `)
+            );
+            $("#displayReservations").append(newResDiv);
+          }
+        } else {
+          $("#displayReservations").append($(`<p>No reservations yet!</p>`));
+        }
+      });
+      $.get("/api/waitlist", function(data) {
+        if (JSON.stringify(data) !== "[]") {
+          for (let i = 0; i < data.length; i++) {
+            const newWaitDiv = $("<div>").addClass("innerDiv");
+            newWaitDiv.append(
+              $(`
+           <div class="blueBox">
+            <h4 class="text-white font-weight-bold text-center">
+              ${i + 1}
+             </h4>
+            </div>
+            <p class="font-weight-bold uniqueID">
+              | &nbsp;&nbsp; ID: ${data[i].uniqueID}
+            </p>
+           `)
+            );
+            $("#displayWaitlist").append(newWaitDiv);
+          }
+        } else {
+          $("#displayWaitlist").append($(`<p>No waitlist yet!</p>`));
+        }
+      });
+
+      function clearTable() {
+        var currentURL = window.location.origin;
+        $.ajax({ url: currentURL + "/api/clear", method: "POST" });
+      }
+      $("#clear").on("click", function() {
+        alert("Reservations and waitlist have been cleared.");
+        clearTable();
+        location.reload();
+      });
+    </script>
+  </body>
+</html>

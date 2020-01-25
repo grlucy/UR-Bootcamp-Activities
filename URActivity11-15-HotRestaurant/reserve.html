@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Activity 11-15</title>
+    <!--Bootstrap-->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="jumbotron">
+          <div class="row">
+            <div class="col text-center">
+              <h1 class="font-weight-bold">Gina's Restaurant</h1>
+              <hr />
+              <h3>
+                Make Your Reservation
+              </h3>
+              <br />
+              <a href="./tables"
+                ><button class="btn btn-primary" id="viewTablesBtn">
+                  View Tables
+                </button></a
+              >
+              <a href="./"
+                ><button class="btn btn-light" id="homeBtn">
+                  Home
+                </button></a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="card">
+              <h5 class="card-header">Table Reservation</h5>
+              <div class="card-body">
+                <form method="POST" role="form">
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="formName">Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="formName"
+                      placeholder="Name"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="formPhone"
+                      >Phone Number</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="formPhone"
+                      placeholder="(###) ###-####"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="formEmail"
+                      >Email Address</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="formEmail"
+                      placeholder="Email"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="formUniqueID"
+                      >Unique ID</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="formUniqueID"
+                      placeholder="ID"
+                    />
+                  </div>
+                  <button type="submit" class="btn btn-primary" id="add-btn">
+                    Submit
+                  </button>
+                </form>
+              </div>
+            </div>
+            <br />
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <a href="./api/tables">API Table Link</a> |
+            <a href="./api/waitlist">API Wait List</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script type="text/javascript">
+      $("#add-btn").on("click", function(event) {
+        event.preventDefault();
+        const newReservation = {
+          name: $("#formName")
+            .val()
+            .trim(),
+          phone: $("#formPhone")
+            .val()
+            .trim(),
+          email: $("#formEmail")
+            .val()
+            .trim(),
+          uniqueID: $("#formUniqueID")
+            .val()
+            .trim()
+        };
+
+        $.post("/api/tables", newReservation).then(function(data) {
+          if (data == true) {
+            alert("Your reservation has been booked.");
+          }
+          if (data == false) {
+            alert("Your reservation has been added to the waitlist.");
+          }
+          $("#formName").val("");
+          $("#formPhone").val("");
+          $("#formEmail").val("");
+          $("#formUniqueID").val("");
+        });
+      });
+    </script>
+  </body>
+</html>
