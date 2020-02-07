@@ -1,0 +1,39 @@
+<header>
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <h1>Make a Wish!</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div style="display: flex;flex-wrap: wrap; justify-content: center;">
+                    {{#each wish}}
+                    <div class="text-center" style="padding: 20px;">
+                        <p>#{{id}}</p>
+                        <h3>{{wish}}</h3>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <form action="/" method="POST">
+                    <textarea type="text" class="form-control" name="wish"></textarea>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
