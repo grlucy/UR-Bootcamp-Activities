@@ -1,0 +1,22 @@
+<h1>Movies</h1>
+<ul>
+    {{#each movies}}
+    <li>
+        <p>
+            #{{this.id}}: {{this.movie}} &nbsp;&nbsp;&nbsp; <button data-movie-id="{{this.id}}"
+                class="deleteBtn">Delete</button>
+        </p>
+    </li>
+    {{/each}}
+</ul>
+
+<script type="text/javascript">
+
+    $(".deleteBtn").on("click", event => {
+        const id = $(this).data("movie-id");
+        $.ajax("/api/movies/" + id, { type: "DELETE" }).then(function () {
+            location.reload();
+        })
+    })
+
+</script>
