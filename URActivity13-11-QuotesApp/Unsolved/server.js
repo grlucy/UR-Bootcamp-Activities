@@ -35,7 +35,7 @@ connection.connect(function(err) {
 app.get("/", function(req, res) {
   connection.query(`SELECT * FROM quotes`, function(err, data) {
     if (err) {
-      return res.status(500).end();
+      res.status(500).end();
     }
     res.render("index", { quotes: data });
   });
@@ -43,16 +43,16 @@ app.get("/", function(req, res) {
 
 // Serve single-quote.handlebars, populated with data that corresponds to the ID in the route URL.
 app.get("/:id", function(req, res) {
-  const id = req.params.id;
-  connection.query(`SELECT * FROM quotes WHERE id = ${id}`, function(
-    err,
-    data
-  ) {
-    if (err) {
-      return res.status(500).end();
+  connection.query(
+    `SELECT * FROM quotes WHERE id = ?`,
+    [req.params.id],
+    function(err, data) {
+      if (err) {
+        res.status(500).end();
+      }
+      res.render("single-quote", data[0]);
     }
-    res.render("single-quote", data);
-  });
+  );
 });
 
 // Create a new quote using the data posted from the front-end.
@@ -60,21 +60,45 @@ app.post("/api/quotes", function(req, res) {
   connection.query(
     `INSERT INTO quotes (author, quote) VALUES (?, ?)`,
     [req.body.author, req.body.quote],
-    function(err, result) {
+    function(err, data) {
       if (err) {
-        return res.status(500).end();
+        res.status(500).end();
       }
-      res.json({ id: result.insertId });
-      console.log({ id: result.insertId });
+      res.json({ id: data.insertId });
     }
   );
 });
 
 // Delete a quote based off of the ID in the route URL.
-app.delete("/api/quotes/:id", function(req, res) {});
+app.delete("/api/quotes/:id", function(req, res) {
+  connection.query(`DELETE FROM quotes WHERE id = ?`, [req.params.id], function(
+    error,
+    data
+  ) {
+    if (error) {
+      res.status(500).end();
+    } else if (data.affectedRows === 0) {
+      res.status(404).end();
+    }
+    res.status(200).end();
+  });
+});
 
 // Update a quote.
-app.put("/api/quotes/:id", function(req, res) {});
+app.put("/api/quotes/:id", function(req, res) {
+  connection.query(
+    `UPDATE quotes SET author = ?, quote = ? WHERE id = ?`,
+    [req.body.author, req.body.quote, req.params.id],
+    function(err, data) {
+      if (err) {
+        res.status(500).end();
+      } else if (data.changedRows === 0) {
+        res.status(404).end();
+      }
+      res.status(200).end();
+    }
+  );
+});
 
 // Start our server so that it can begin listening to client requests.
 app.listen(PORT, function() {
