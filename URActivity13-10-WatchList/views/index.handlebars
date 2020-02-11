@@ -1,22 +1,106 @@
-<h1>Movies</h1>
-<ul>
-    {{#each movies}}
-    <li>
-        <p>
-            #{{this.id}}: {{this.movie}} &nbsp;&nbsp;&nbsp; <button data-movie-id="{{this.id}}"
-                class="deleteBtn">Delete</button>
-        </p>
-    </li>
-    {{/each}}
-</ul>
+{{!-- Header --}}
+<header>
+ <div class="container">
+  <div class="jumbotron jumbotron-fluid text-center">
+   <h1>Movies Database</h1>
+  </div>
+ </div>
+</header>
+<section>
+ <div class="container">
+  <div class="row">
+   <div class="col text-center">
+    <table class="table">
+     <thead class="thead-dark">
+      <tr>
+       <th scope="col">ID</th>
+       <th scope="col">Movie Title</th>
+       <th scope="col"></th>
+      </tr>
+     </thead>
+     <tbody>
+      {{#each movies}}
+      <tr>
+       <td>{{this.id}}</td>
+       <td>{{this.movie}}</td>
+       <td><button data-id="{{this.id}}" class="deleteBtn btn btn-outline-info btn-sm">Delete</button></td>
+      </tr>
+      {{/each}}
+     </tbody>
+    </table>
+   </div>
+  </div>
+ </div>
+</section>
+{{!-- CREATE --}}
+<section>
+ <div class="container">
+  <div class="row">
+   <div class="col text-center">
+    <hr>
+    <h2>Add a movie!</h2>
+    <form id="createMovie">
+     <div class="form-group">
+      <label for="newMovieTitle">Enter movie title:</label>
+      <input class="form-control" type="text" id="newMovieTitle">
+     </div>
+     <button type="submit" class="btn btn-info">Add</button>
+    </form>
+    <br><br>
+   </div>
+  </div>
+ </div>
+</section>
+{{!-- UPDATE --}}
+<section>
+ <div class="container">
+  <div class="row">
+   <div class="col text-center">
+    <hr>
+    <h2>Update a movie!</h2>
+    <form id="updateMovie">
+     <div class="form-group">
+      <label for="updateID">Choose movie:</label>
+      <select id="updateID">
+       {{#each movies}}
+       <option value="{{this.id}}">{{this.movie}}</option>
+       {{/each}}
+      </select>
+     </div>
+     <div class="form-group">
+      <label for="updateMovieTitle">Update movie title:</label>
+      <input class="form-control" type="text" id="updateMovieTitle">
+     </div>
+     <button type="submit" class="btn btn-info">Update</button>
+    </form>
+    <br><br>
+   </div>
+  </div>
+ </div>
+</section>
 
+{{!-- JAVASCRIPT --}}
 <script type="text/javascript">
 
-    $(".deleteBtn").on("click", event => {
-        const id = $(this).data("movie-id");
-        $.ajax("/api/movies/" + id, { type: "DELETE" }).then(function () {
-            location.reload();
-        })
-    })
+ $(".deleteBtn").on("click", function (event) {
+  const id = $(this).data("id");
+  $.ajax("/movies/" + id, { type: "DELETE" }).then(
+   function () {
+    location.reload();
+   })
+ })
+
+ $("#createMovie").on("submit", function (event) {
+  event.preventDefault();
+  const newMovie = { movie: $("#newMovieTitle").val().trim() };
+  $.ajax("/movies", { type: "POST", data: newMovie }).then(function () { location.reload() })
+ })
+
+ $("#updateMovie").on("submit", function (event) {
+  event.preventDefault();
+  const id = $("#updateID").val().trim();
+  const updatedMovie = { movie: $("#updateMovieTitle").val().trim() };
+  $.ajax("/movies/" + id, { type: "PUT", data: updatedMovie }).then(function () { location.reload() })
+ })
 
 </script>

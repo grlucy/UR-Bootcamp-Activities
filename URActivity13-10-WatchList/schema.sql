@@ -1,12 +1,16 @@
 DROP DATABASE IF EXISTS moviePlannerDB;
-CREATE database moviePlannerDB;
-use moviePlannerDB;
 
-Create table movies (
-    id integer(11) auto_increment not null,
-    movie varchar(100) null,
-    primary key (id)
+CREATE DATABASE moviePlannerDB;
+
+USE moviePlannerDB;
+
+CREATE TABLE movies (
+ id INTEGER(11) AUTO_INCREMENT NOT NULL,
+ movie VARCHAR(100) NULL,
+ PRIMARY KEY (id)
 );
 
-insert into movies (movie)
-values ("Star Wars");
+INSERT INTO movies (movie)
+VALUES ("The Phantom Menace"), ("Attack of the Clones"), ("Revenge of the Sith"), ("A New Hope"), ("The Empire Strikes Back"), ("Return of the Jedi");
+
+SELECT * FROM movies;
